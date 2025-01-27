@@ -7,6 +7,7 @@ import {getVisibleElements, isVisible} from "@web/core/utils/ui";
 import {FormController} from "@web/views/form/form_controller";
 import {KanbanController} from "@web/views/kanban/kanban_controller";
 import {ListController} from "@web/views/list/list_controller";
+import {_t} from "@web/core/l10n/translation";
 import {isAllowedBarcodeModel} from "../utils/barcodes_models_utils.esm";
 import {patch} from "@web/core/utils/patch";
 import {useEffect} from "@odoo/owl";
@@ -72,7 +73,7 @@ export function barcodeAddHotkeyOverlays(activeElement) {
 function setupView() {
     const actionService = useService("action");
     const uiService = useService("ui");
-    const busService = useService("bus_service");
+    const busService = this.env.services.bus_service;
     const notification = useService("notification");
 
     const handleKeys = async (ev) => {
@@ -109,8 +110,8 @@ function setupView() {
             notifications.forEach((notif) => {
                 const {payload, type} = notif;
                 if (
-                    (this.model.root.resModel == payload.res_model) &
-                    (this.model.root.resId == payload.res_id)
+                    (this.model.root.resModel === payload.res_model) &
+                    (this.model.root.resId === payload.res_id)
                 ) {
                     if (type === "stock_barcodes_sound") {
                         if (payload.sound === "ko") {
@@ -118,8 +119,7 @@ function setupView() {
                         } else {
                             this.$sound_ok[0].play();
                         }
-                    }
-                    if (type === "stock_barcodes_focus") {
+                    } else if (type === "stock_barcodes_focus") {
                         requestIdleCallback(() => {
                             const input = document.querySelector(
                                 `[name=${payload.field_name}] input`
@@ -128,14 +128,42 @@ function setupView() {
                                 input.focus();
                             }
                         });
-                    }
-                    if (type === "stock_barcodes_notify") {
+                    } else if (type === "stock_barcodes_notify") {
                         notification.add(notif.payload.message, {
                             title: notif.payload.title,
                             type: notif.payload.type,
                             sticky: notif.payload.sticky,
                         });
                     }
+                }
+
+                if (type === "stock_barcodes_edit_manual") {
+                    if (payload.manual_entry) {
+                        this.env.bus.trigger("enableFormEditBarcode");
+                    } else if (!payload.manual_entry) {
+                        this.env.bus.trigger("disableFormEditBarcode");
+                    }
+                } else if (type === "actions_barcode") {
+                    if (payload.valid_picking) {
+                        notification.add(_t("The transfer has been validated"), {
+                            type: "success",
+                        });
+                    } else if (payload.apply_inventory) {
+                        notification.add(
+                            _t("The inventory adjustment has been validated"),
+                            {
+                                type: "success",
+                            }
+                        );
+                        return actionService.doAction(
+                            "stock_barcodes.action_stock_barcodes_action"
+                        );
+                    }
+                } else if (type === "actions_barcode_notification") {
+                    notification.add(_t(payload.message), {
+                        type: payload.message_type,
+                        sticky: payload.sticky,
+                    });
                 }
             });
         }
@@ -156,7 +184,6 @@ function setupView() {
         this.$sound_ko.appendTo("body");
 
         busService.addChannel("stock_barcodes_scan");
-
         busService.addEventListener("notification", handleNotification);
 
         return () => {
@@ -169,27 +196,27 @@ function setupView() {
     });
 }
 
-patch(KanbanController.prototype, "add hotkeys to kanban", {
+patch(KanbanController.prototype, {
     setup() {
-        this._super(...arguments);
+        super.setup();
         if (isAllowedBarcodeModel(this.props.resModel)) {
             setupView.call(this);
         }
     },
 });
 
-patch(FormController.prototype, "add hotkeys to form", {
+patch(FormController.prototype, {
     setup() {
-        this._super(...arguments);
+        super.setup();
         if (isAllowedBarcodeModel(this.props.resModel)) {
             setupView.call(this);
         }
     },
 });
 
-patch(ListController.prototype, "add hotkeys to list", {
+patch(ListController.prototype, {
     setup() {
-        this._super(...arguments);
+        super.setup();
         if (isAllowedBarcodeModel(this.props.resModel)) {
             setupView.call(this);
         }
