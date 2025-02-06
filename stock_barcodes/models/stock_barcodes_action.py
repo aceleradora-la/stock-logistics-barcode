@@ -49,12 +49,11 @@ class StockBarcodesAction(models.Model):
             if not re.match(REGEX.get("barcode", False), action.barcode):
                 raise ValidationError(
                     _(
-                        """ The barcode {} is not correct.
-                        Use numbers, letters and dashes, without spaces.
-                        E.g. 15753, BC-5789,er-56 """.format(
-                            action.barcode
-                        )
-                    )
+                        " The barcode {} is not correct."
+                        "Use numbers, letters and dashes, without spaces."
+                        "E.g. 15753, BC-5789,er-56 "
+                        ""
+                    ).format(action.barcode)
                 )
             all_barcode = [bar for bar in action.mapped("barcode") if bar]
             domain = [("barcode", "in", all_barcode)]
@@ -62,12 +61,8 @@ class StockBarcodesAction(models.Model):
             if len(matched_actions) > len(all_barcode):
                 raise ValidationError(
                     _(
-                        """ Barcode has already been assigned to
-                        the action(s): {}.
-                        """.format(
-                            ", ".join(matched_actions.mapped("name"))
-                        )
-                    )
+                        """ Barcode has already been assigned to the action(s): {}."""
+                    ).format(", ".join(matched_actions.mapped("name")))
                 )
 
     def _generate_barcode(self):
