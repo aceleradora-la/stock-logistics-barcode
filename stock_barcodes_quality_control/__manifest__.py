@@ -14,7 +14,6 @@
         "data/stock_barcodes_action_data.xml",
         "views/stock_barcodes_option_views.xml",
         "wizard/quality_control_validate_wizard_views.xml",
-        "wizard/stock_barcodes_read_picking_views.xml",
     ],
     "auto_install": True,
 }
