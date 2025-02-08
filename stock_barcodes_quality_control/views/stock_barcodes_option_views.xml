@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <record id="stock_barcodes_option_group_view_form" model="ir.ui.view">
+        <field name="name">stock.barcodes.option.group.view.form.inherit</field>
+        <field name="model">stock.barcodes.option.group</field>
+        <field
+            name="inherit_id"
+            ref="stock_barcodes.view_stock_barcodes_option_group_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='display_read_quant']" position="after">
+                <field name="show_quality_control" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
