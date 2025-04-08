@@ -28,10 +28,10 @@
         <field name="context">{'search_default_code': 'internal', 'search_default_barcode_options': 1}</field>
     </record>
 
-    <!-- Action Window para Inventory -->
+    <!-- Acción window para Inventory -->
     <record id="action_stock_barcodes_read_inventory" model="ir.actions.act_window">
         <field name="name">Read Inventory</field>
-        <field name="res_model">stock.inventory.adjustment</field>
+        <field name="res_model">stock.inventory</field> <!-- CORREGIDO -->
         <field name="view_mode">tree,form</field>
         <field name="target">current</field>
     </record>
