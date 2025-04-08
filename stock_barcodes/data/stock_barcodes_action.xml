@@ -1,5 +1,13 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
+
+    <!-- Acción window agregada -->
+    <record id="action_stock_barcodes_read_inventory" model="ir.actions.act_window">
+        <field name="name">Read Inventory</field>
+        <field name="res_model">stock.inventory</field>
+        <field name="view_mode">tree,form</field>
+        <field name="target">current</field>
+    </record>
 
     <record id="stock_barcodes_action_picking_in" model="stock.barcodes.action">
         <field name="name">Picking IN</field>
@@ -10,6 +18,7 @@
             name="context"
         >{'search_default_code': 'incoming', 'search_default_barcode_options': 1}</field>
     </record>
+
     <record id="stock_barcodes_action_picking_int" model="stock.barcodes.action">
         <field name="name">Picking INTERNAL</field>
         <field name="sequence">30</field>
@@ -19,6 +28,7 @@
             name="context"
         >{'search_default_code': 'internal', 'search_default_barcode_options': 1}</field>
     </record>
+
     <record id="stock_barcodes_action_picking_out" model="stock.barcodes.action">
         <field name="name">Picking OUT</field>
         <field name="sequence">20</field>
@@ -28,7 +38,8 @@
             name="context"
         >{'search_default_code': 'outgoing', 'search_default_barcode_options': 1}</field>
     </record>
-    <!-- Action for inventory based on quants -->
+
+    <!-- Acción para inventario basada en quants -->
     <record id="stock_barcodes_action_inventory" model="stock.barcodes.action">
         <field name="name">Inventory</field>
         <field name="sequence">40</field>
@@ -39,4 +50,5 @@
         <field name="key_char_shortcut">8</field>
         <field name="context">{'inventory_mode': True}</field>
     </record>
+
 </odoo>
