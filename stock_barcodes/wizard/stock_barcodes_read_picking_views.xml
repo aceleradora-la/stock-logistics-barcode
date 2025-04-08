@@ -211,7 +211,7 @@
                             <field name="state" />
                             <field name="product_id" />
                             <field name="product_uom_qty" />
-                             <field name="quantity" string="Done"/>
+                            <field name="quantity" string="Done"/>
                             <templates>
                                 <t t-name="kanban-box">
                                     <div t-attf-class="oe_kanban_card">
@@ -233,8 +233,9 @@
                                             <div class="col-2">
                                                 <span
                                                     class="float-end text-end"
-                                                    t-att-class="quantity &gt;= product_uom_qty ? 'text-success' : ''" >
-                                                     <field name="quantity" string="Done"/>
+                                                     t-att-class="quantity &gt;= product_uom_qty ? 'text-success' : ''" 
+                                                 >
+                                                    <field name="quantity" string="Done"/>
                                                 </span>
                                             </div>
                                             <div class="text-end col-2">
@@ -300,8 +301,7 @@
                                 options="{'no_open': True}"
                                 optional="show"
                             />
-                             <field name="quantity" string="Done"/>
-                            <field
+                            <field name="quantity" string="Done"/> <field
                                 name="product_uom_id"
                                 groups="uom.group_uom"
                                 options="{'no_open': True}"
@@ -317,8 +317,7 @@
                         </tree>
                         <kanban class="o_kanban_mobile">
                             <field name="product_id" />
-                             <field name="quantity" string="Done"/>
-                            <field name="product_uom_id" />
+                            <field name="quantity" string="Done"/> <field name="product_uom_id" />
                             <templates>
                                 <t t-name="kanban-box">
                                     <div t-attf-class="oe_kanban_card">
@@ -334,8 +333,7 @@
                                                 <span
                                                     class="fw-bold text-end float-end"
                                                 >
-                                                     <field name="quantity" string="Done"/>
-                                                </span>
+                                                    <field name="quantity" string="Done"/> </span>
                                             </div>
                                             <div class="text-end col-3">
                                                 <button
@@ -380,7 +378,7 @@
                     type="object"
                     string="Range"
                     title="Assign Serial Numbers"
-                    invisible="[('display_assign_serial', '=', False)]"
+                    invisible="[('display_assign_serial', '=', False)]" 
                     class="btn btn-secondary btn-sm"
                 />
             </xpath>
@@ -392,7 +390,7 @@
                     type="object"
                     icon="fa-cubes"
                     title="Put in Pack"
-                    invisible="['|', ('picking_state', 'in', ('draft', 'done', 'cancel')), ('display_menu', '=', True)]"
+                    invisible="['|', ('picking_state', 'in', ('draft', 'done', 'cancel')), ('display_menu', '=', True)]" 
                     class="ms-auto oe_kanban_action_button btn btn-secondary btn-sm ps-3 pe-3"
                     groups="stock.group_tracking_lot"
                     data-hotkey="6"
