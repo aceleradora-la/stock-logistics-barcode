@@ -5,7 +5,7 @@ import {browser} from "@web/core/browser/browser";
 import {patch} from "@web/core/utils/patch";
 import {useService} from "@web/core/utils/hooks";
 
-patch(BarcodeDialog.prototype, "stock_barcodes.BarcodeScanner", {
+patch(BarcodeDialog.prototype, {
     /* eslint-disable no-unused-vars */
     setup() {
         this._super(...arguments);
