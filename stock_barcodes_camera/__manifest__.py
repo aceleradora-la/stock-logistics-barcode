@@ -2,7 +2,7 @@
 {
     "name": "Stock Barcodes Camera",
     "summary": "Provides barcode reading with webcam, in stock operations.",
-    "version": "16.0.1.0.0",
+    "version": "17.0.0.0.0",
     "author": "Binhex, " "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/stock-logistics-barcode",
     "license": "AGPL-3",
