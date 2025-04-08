@@ -18,6 +18,7 @@ setuptools.setup(
         'odoo-addon-product_multi_barcode_stock_menu>=16.0dev,<16.1dev',
         'odoo-addon-product_packaging_multi_barcode>=16.0dev,<16.1dev',
         'odoo-addon-stock_barcodes>=16.0dev,<16.1dev',
+        'odoo-addon-stock_barcodes_picking_batch>=16.0dev,<16.1dev',
         'odoo-addon-stock_picking_product_barcode_report>=16.0dev,<16.1dev',
     ],
     classifiers=[
