@@ -74,8 +74,7 @@
                 <field name="sequence"/>
                 <field name="name"/>
                 <!-- Reemplazamos invisible por modifiers -->
-                <field name="option_group_id"
-                    modifiers="{'invisible': [['context.get("hide_option_group_id")', '=', True]]}"/>
+                <field name="option_group_id" attrs="{'invisible': [('some_field', '=', True)]}"/>
                 <field name="field_name"/>
                 <field name="filled_default"/>
                 <field name="forced"/>
