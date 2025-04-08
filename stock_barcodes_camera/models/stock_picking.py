@@ -19,13 +19,17 @@ class StockPicking(models.Model):
             .sudo()
             .get_param("stock_barcodes.enable_camera_barcode_scanner", False),
         }
-        if self.picking_type_id.code == "outgoing":
+
+        # Default location values based on picking type
+        if self.picking_type_id.code == "outgoing" and self.location_dest_id:
             vals["location_dest_id"] = self.location_dest_id.id
-        elif self.picking_type_id.code == "incoming":
+        elif self.picking_type_id.code == "incoming" and self.location_id:
             vals["location_id"] = self.location_id.id
 
-        if option_group.get_option_value("location_id", "filled_default"):
+        # Option group overrides
+        if option_group.get_option_value("location_id", "filled_default") and self.location_id:
             vals["location_id"] = self.location_id.id
-        if option_group.get_option_value("location_dest_id", "filled_default"):
+        if option_group.get_option_value("location_dest_id", "filled_default") and self.location_dest_id:
             vals["location_dest_id"] = self.location_dest_id.id
+
         return vals
