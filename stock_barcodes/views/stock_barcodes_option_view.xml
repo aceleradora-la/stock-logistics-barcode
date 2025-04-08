@@ -21,7 +21,6 @@
                             <field name="manual_entry"/>
                             <field name="manual_entry_field_focus"/>
                             <field name="confirmed_moves"/>
-                            <!-- Reemplazamos attrs por modifiers -->
                             <field name="show_pending_moves"/>
                             <field name="source_pending_moves"
                                 modifiers="{'invisible': ['|', ['show_pending_moves', '=', False], ['barcode_guided_mode', '=', False]]}"/>
@@ -53,7 +52,6 @@
                             <field name="name"/>
                             <field name="field_name"/>
                             <field name="filled_default"/>
-                            <!-- Reemplazamos attrs por modifiers -->
                             <field name="forced"
                                 modifiers="{'invisible': [['parent.barcode_guided_mode', '=', False]]}"/>
                             <field name="to_scan"/>
@@ -65,6 +63,7 @@
             </form>
         </field>
     </record>
+
     <record id="view_stock_barcodes_option_tree" model="ir.ui.view">
         <field name="name">stock.barcodes.option.tree</field>
         <field name="model">stock.barcodes.option</field>
@@ -72,7 +71,7 @@
             <tree editable="bottom">
                 <field name="sequence"/>
                 <field name="name"/>
-                <field name="option_group_id" modifiers="{'invisible': [['some_field', '=', True]]}"/>
+                <field name="option_group_id"/>
                 <field name="field_name"/>
                 <field name="filled_default"/>
                 <field name="forced"/>
@@ -88,11 +87,13 @@
         <field name="name">Barcodes options</field>
         <field name="view_mode">tree</field>
     </record>
+
     <record model="ir.actions.act_window" id="action_stock_barcodes_option_group">
         <field name="res_model">stock.barcodes.option.group</field>
         <field name="name">Barcodes options groups</field>
         <field name="view_mode">tree,form</field>
     </record>
+
     <menuitem
         id="menu_action_stock_barcodes_option_group"
         action="action_stock_barcodes_option_group"
