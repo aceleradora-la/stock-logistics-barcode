@@ -6,7 +6,7 @@
     "author": "Binhex, " "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/stock-logistics-barcode",
     "license": "AGPL-3",
-    "category": "Extra Tools",
+    "category": "Inventory/Barcode",
     "depends": ["stock_barcodes"],
     "data": [
         "wizard/stock_barcodes_read_views.xml",
