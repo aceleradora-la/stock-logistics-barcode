@@ -4,7 +4,7 @@ import {patch} from "@web/core/utils/patch";
 import {useService} from "@web/core/utils/hooks";
 const {useEffect} = owl;
 
-patch(BarcodeHandlerField.prototype, "stock_barcodes.BarcodeHandlerField", {
+patch(BarcodeHandlerField, {
     /* eslint-disable no-unused-vars */
     setup() {
         this._super(...arguments);
