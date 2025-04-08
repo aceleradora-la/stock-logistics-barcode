@@ -23,7 +23,7 @@ class StockMove(models.Model):
             moves_cancel_backorder = self.filtered(
                 lambda sm: sm.barcode_backorder_action == "skip_backorder"
             )
-            super(StockMove, moves_cancel_backorder)._action_done(cancel_backorder=True)
+            super()._action_done(cancel_backorder=True)
         moves_backorder = self - moves_cancel_backorder
         moves_backorder.barcode_backorder_action = "pending"
         return super(StockMove, moves_backorder)._action_done(
