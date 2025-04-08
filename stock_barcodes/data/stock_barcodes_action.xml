@@ -31,7 +31,7 @@
     <!-- Acción window para Inventory -->
     <record id="action_inventory_form" model="ir.actions.act_window">
     <field name="name">Inventory Adjustments</field>
-    <field name="res_model">stock.inventory.adjustment</field>
+    <field name="res_model">stock.quant</field>
         <field name="view_mode">tree,form</field>
         <field name="target">current</field>
     </record>
