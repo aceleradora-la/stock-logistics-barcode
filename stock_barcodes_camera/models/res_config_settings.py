@@ -8,5 +8,6 @@ class ResConfigSettings(models.TransientModel):
 
     enable_camera_barcode_scanner = fields.Boolean(
         "Barcode Scanner",
+        help="Enable using the device's camera to scan barcodes.",
         config_parameter="stock_barcodes.enable_camera_barcode_scanner",
     )
