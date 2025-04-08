@@ -10,7 +10,8 @@
                 <field
                     name="candidate_picking_ids"
                     mode="kanban"
-                    invisible="[('candidate_picking_ids', '=', [])]" nolabel="1"
+                    invisible="[('candidate_picking_ids', '=', [])]"
+                    nolabel="1"
                     force_save="1"
                     class="o_x2m_control_panel"
                     options="{'always_reload': True}"
@@ -104,7 +105,8 @@
                                                     name="action_validate_picking"
                                                     type="object"
                                                     t-att-class="'btn float-end' + (record.is_pending.raw_value == false ? ' btn-primary' : ' btn-secondary border')"
-                                                    invisible="[('state', 'not in', ['draft', 'assigned', 'confirmed'])]" confirm="Are you sure to validate the picking ?"
+                                                    invisible="[('state', 'not in', ['draft', 'assigned', 'confirmed'])]"
+                                                    confirm="Are you sure to validate the picking ?"
                                                     context="{'wiz_barcode_id': parent.id, 'picking_id': picking_id}"
                                                     data-hotkey="'shift+v'"
                                                 >Validate</button>
@@ -120,7 +122,8 @@
                     name="todo_line_display_ids"
                     mode="kanban"
                     force_save="1"
-                    invisible="[('todo_line_display_ids', '=', [])]" />
+                    invisible="[('todo_line_display_ids', '=', [])]"
+                />
             </xpath>
             <field name="location_id" position="before">
                 <field name="picking_type_code" invisible="1" force_save="1" />
@@ -139,9 +142,10 @@
             </field>
             <group name="location" position="attributes">
                  <attribute name="invisible">[('picking_type_code', '=', 'incoming')]</attribute>
-                 </group>
+            </group>
             <group name="location" position="after">
-                <div invisible="[('picking_type_code', '=', 'outgoing')]"> <strong class=" d-none d-sm-block">Dest. Location</strong>
+                <div invisible="[('picking_type_code', '=', 'outgoing')]">
+                    <strong class=" d-none d-sm-block">Dest. Location</strong>
                     <span
                         class="fa fa-share text-center d-sm-none oe_span_small_icon"
                         title="Destination Location"
@@ -149,7 +153,8 @@
                     <field
                         name="location_dest_id"
                         options="{'no_create': True, 'no_open': True}"
-                        readonly="[('manual_entry', '=', False)]" force_save="1"
+                        readonly="[('manual_entry', '=', False)]"
+                        force_save="1"
                         nolabel="1"
                         style="width:90%"
                         class="h5"
@@ -158,11 +163,13 @@
                 </div>
             </group>
             <group name="scan_fields" position="attributes">
-                <attribute name="invisible">[('todo_line_is_extra_line', '!=', False)]</attribute> </group>
+                <attribute name="invisible">[('todo_line_is_extra_line', '!=', False)]</attribute>
+            </group>
             <group name="scan_fields" position="after">
                 <group
                     string="Pending moves"
-                    invisible="[('pending_move_ids', '=', [])]" col="2"
+                    invisible="[('pending_move_ids', '=', [])]"
+                    col="2"
                 >
                     <field
                         name="pending_move_ids"
@@ -190,7 +197,7 @@
                                 groups="stock.group_tracking_lot"
                                 optional="hide"
                             />
-                            <field name="qty_done" />
+                            <field name="quantity" string="Done"/> 
                             <button
                                 name="fill_from_pending_line"
                                 title="Fill from pending line"
@@ -204,7 +211,7 @@
                             <field name="state" />
                             <field name="product_id" />
                             <field name="product_uom_qty" />
-                            <field name="qty_done" />
+                             <field name="quantity" string="Done"/>
                             <templates>
                                 <t t-name="kanban-box">
                                     <div t-attf-class="oe_kanban_card">
@@ -226,9 +233,8 @@
                                             <div class="col-2">
                                                 <span
                                                     class="float-end text-end"
-                                                    t-att-class="qty_done &gt;= product_uom_qty ? 'text-success' : ''"
-                                                >
-                                                    <field name="qty_done" />
+                                                    t-att-class="quantity &gt;= product_uom_qty ? 'text-success' : ''" >
+                                                     <field name="quantity" string="Done"/>
                                                 </span>
                                             </div>
                                             <div class="text-end col-2">
@@ -255,7 +261,8 @@
                 <group
                     string="Detailed operations"
                     col="2"
-                    invisible="['|', ('move_line_ids', '=', []), ('show_detailed_operations', '=', False)]" >
+                    invisible="['|', ('move_line_ids', '=', []), ('show_detailed_operations', '=', False)]"
+                >
                     <field
                         name="move_line_ids"
                         options="{'no_open': True, 'always_reload': True}"
@@ -271,13 +278,15 @@
                                 name="location_id"
                                 options="{'no_open': True}"
                                 groups="stock.group_stock_multi_locations"
-                                invisible="[('picking_code', '=', 'incoming')]" optional="show"
+                                invisible="[('picking_code', '=', 'incoming')]"
+                                optional="show"
                             />
                             <field
                                 name="location_dest_id"
                                 options="{'no_open': True}"
                                 groups="stock.group_stock_multi_locations"
-                                invisible="[('picking_code', '=', 'outgoing')]" optional="show"
+                                invisible="[('picking_code', '=', 'outgoing')]"
+                                optional="show"
                             />
                             <field
                                 name="lot_id"
@@ -291,7 +300,7 @@
                                 options="{'no_open': True}"
                                 optional="show"
                             />
-                            <field name="qty_done" />
+                             <field name="quantity" string="Done"/>
                             <field
                                 name="product_uom_id"
                                 groups="uom.group_uom"
@@ -308,7 +317,7 @@
                         </tree>
                         <kanban class="o_kanban_mobile">
                             <field name="product_id" />
-                            <field name="qty_done" />
+                             <field name="quantity" string="Done"/>
                             <field name="product_uom_id" />
                             <templates>
                                 <t t-name="kanban-box">
@@ -325,7 +334,7 @@
                                                 <span
                                                     class="fw-bold text-end float-end"
                                                 >
-                                                    <field name="qty_done" />
+                                                     <field name="quantity" string="Done"/>
                                                 </span>
                                             </div>
                                             <div class="text-end col-3">
@@ -371,7 +380,8 @@
                     type="object"
                     string="Range"
                     title="Assign Serial Numbers"
-                    invisible="[('display_assign_serial', '=', False)]" class="btn btn-secondary btn-sm"
+                    invisible="[('display_assign_serial', '=', False)]"
+                    class="btn btn-secondary btn-sm"
                 />
             </xpath>
             <xpath expr="//button[@name='action_clean_values']" position="before">
@@ -382,7 +392,8 @@
                     type="object"
                     icon="fa-cubes"
                     title="Put in Pack"
-                    invisible="['|', ('picking_state', 'in', ('draft', 'done', 'cancel')), ('display_menu', '=', True)]" class="ms-auto oe_kanban_action_button btn btn-secondary btn-sm ps-3 pe-3"
+                    invisible="['|', ('picking_state', 'in', ('draft', 'done', 'cancel')), ('display_menu', '=', True)]"
+                    class="ms-auto oe_kanban_action_button btn btn-secondary btn-sm ps-3 pe-3"
                     groups="stock.group_tracking_lot"
                     data-hotkey="6"
                 >
