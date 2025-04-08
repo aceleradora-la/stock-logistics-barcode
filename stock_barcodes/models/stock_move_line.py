@@ -15,16 +15,16 @@ class StockMoveLine(models.Model):
         store=True,
     )
 
-    @api.depends("product_qty_done", "reserved_uom_qty")
+    @api.depends("quantity_done", "reserved_uom_qty")
     def _compute_barcode_scan_state(self):
         for line in self:
-            if line.product_qty_done >= line.reserved_uom_qty:
+            if line.quantity_done >= line.reserved_uom_qty:
                 line.barcode_scan_state = "done"
             else:
                 line.barcode_scan_state = "pending"
 
     def _barcodes_process_line_to_unlink(self):
-        self.product_qty_done = 0.0
+        self.quantity_done = 0.0
 
     def action_barcode_detailed_operation_unlink(self):
         for sml in self:
