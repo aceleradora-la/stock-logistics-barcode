@@ -15,17 +15,17 @@ class StockMoveLine(models.Model):
         store=True,
     )
 
-    @api.depends("quantity", "reserved_quantity")
+    @api.depends("quantity", "move_id.product_uom_qty")
     def _compute_barcode_scan_state(self):
         for line in self:
-            # Si la cantidad procesada >= cantidad reservada, está 'done'
-            if line.quantity >= line.reserved_quantity:
+            # Si la cantidad leída >= la cantidad a mover, marcamos como done
+            if line.quantity >= line.move_id.product_uom_qty:
                 line.barcode_scan_state = "done"
             else:
                 line.barcode_scan_state = "pending"
 
     def _barcodes_process_line_to_unlink(self):
-        # Poner en cero la cantidad procesada
+        # Poner en cero la cantidad leída
         self.quantity = 0.0
 
     def action_barcode_detailed_operation_unlink(self):
@@ -33,7 +33,7 @@ class StockMoveLine(models.Model):
             stock_move = sml.move_id
             stock_move.barcode_backorder_action = "pending"
             sml.unlink()
-            # HACK: Forzar refresco del wizard
+            # Forzar refresco del wizard
             wiz_barcode = self.env["wiz.stock.barcodes.read.picking"].browse(
                 self.env.context.get("wiz_barcode_id", False)
             )
