@@ -302,7 +302,7 @@
                                  options="{'no_open': True}"
                                  optional="show"
                              />
-                             <field name="product_qty_done" string="Done"/> 
+                             <field name="quantity" string="Done"/> 
                              <field
                                  name="product_uom_id"
                                  groups="uom.group_uom"
@@ -319,7 +319,7 @@
                          </tree>
                          <kanban class="o_kanban_mobile">
                              <field name="product_id" />
-                             <field name="product_qty_done" string="Done"/> 
+                              <field name="quantity" string="Done"/> 
                              <field name="product_uom_id" />
                              <templates>
                                  <t t-name="kanban-box">
@@ -336,7 +336,7 @@
                                                  <span
                                                      class="fw-bold text-end float-end"
                                                  >
-                                                      <field name="product_qty_done" string="Done"/>
+                                                       <field name="quantity" string="Done"/>
                                                  </span>
                                              </div>
                                              <div class="text-end col-3">
