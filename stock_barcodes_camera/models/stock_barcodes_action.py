@@ -18,10 +18,12 @@ class StockBarcodesAction(models.Model):
             .sudo()
             .get_param("stock_barcodes.enable_camera_barcode_scanner", False),
         }
+
         if option_group.get_option_value("location_id", "filled_default"):
-            vals["location_id"] = (
-                self.env["stock.warehouse"].search([], limit=1).lot_stock_id.id
-            )
+            warehouse = self.env["stock.warehouse"].search([], limit=1)
+            if warehouse and warehouse.lot_stock_id:
+                vals["location_id"] = warehouse.lot_stock_id.id
+
         wiz = self.env["wiz.stock.barcodes.read.inventory"].create(vals)
         action = self.env["ir.actions.actions"]._for_xml_id(
             "stock_barcodes.action_stock_barcodes_read_inventory"
