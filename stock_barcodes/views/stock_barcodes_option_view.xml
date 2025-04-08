@@ -65,7 +65,6 @@
             </form>
         </field>
     </record>
-
     <record id="view_stock_barcodes_option_tree" model="ir.ui.view">
         <field name="name">stock.barcodes.option.tree</field>
         <field name="model">stock.barcodes.option</field>
@@ -73,8 +72,7 @@
             <tree editable="bottom">
                 <field name="sequence"/>
                 <field name="name"/>
-                <!-- Reemplazamos invisible por modifiers -->
-                <field name="option_group_id" attrs="{'invisible': [('some_field', '=', True)]}"/>
+                <field name="option_group_id" modifiers="{'invisible': [['some_field', '=', True]]}"/>
                 <field name="field_name"/>
                 <field name="filled_default"/>
                 <field name="forced"/>
