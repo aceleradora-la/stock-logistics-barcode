@@ -2,19 +2,22 @@
 /* Copyright 2022 Tecnativa - Alexandre D. Díaz
  * License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). */
 
-import {KanbanRenderer} from "@web/views/kanban/kanban_renderer";
-import {isAllowedBarcodeModel} from "../utils/barcodes_models_utils.esm";
-import {patch} from "@web/core/utils/patch";
-import {useBus} from "@web/core/utils/hooks";
-import {useHotkey} from "@web/core/hotkeys/hotkey_hook";
-import {useRef} from "@odoo/owl";
+import { KanbanRenderer } from "@web/views/kanban/kanban_renderer";
+import { isAllowedBarcodeModel } from "../utils/barcodes_models_utils.esm";
+import { patch } from "@web/core/utils/patch";
+import { useBus } from "@web/core/utils/hooks";
+import { useHotkey } from "@web/core/hotkeys/hotkey_hook";
+import { useRef } from "@odoo/owl";
+
+const originalSetup = KanbanRenderer.prototype.setup;
 
 patch(KanbanRenderer.prototype, {
     setup() {
         const rootRef = useRef("root");
+
         useHotkey(
             "Enter",
-            ({target}) => {
+            ({ target }) => {
                 if (!target.classList.contains("o_kanban_record")) {
                     return;
                 }
@@ -36,15 +39,18 @@ patch(KanbanRenderer.prototype, {
                 }
                 return;
             },
-            {area: () => rootRef.el}
+            { area: () => rootRef.el }
         );
 
-        this._super(...arguments);
+        // Llamar al setup original si existe
+        if (originalSetup) {
+            originalSetup.call(this);
+        }
 
         if (isAllowedBarcodeModel(this.props.list.resModel)) {
             if (this.env.searchModel) {
                 useBus(this.env.searchModel, "focus-view", () => {
-                    const {model} = this.props.list;
+                    const { model } = this.props.list;
                     if (model.useSampleModel || !model.hasData()) {
                         return;
                     }
@@ -93,7 +99,7 @@ patch(KanbanRenderer.prototype, {
     },
 
     focusNextCard(area, direction) {
-        const {isGrouped} = this.props.list;
+        const { isGrouped } = this.props.list;
         const closestCard = document.activeElement.closest(".o_kanban_record");
         if (!closestCard) {
             return;
@@ -105,14 +111,13 @@ patch(KanbanRenderer.prototype, {
             .map((group) => [...group.querySelectorAll(".o_kanban_record")])
             .filter((group) => group.length);
 
-                if (isAllowedBarcodeModel(this.props.list.resModel)) {
+        if (isAllowedBarcodeModel(this.props.list.resModel)) {
             cards = cards.map((group) => {
-                const result = group.filter((card) => {
+                return group.filter((card) => {
                     return (
                         card.querySelectorAll('button[name="action_barcode_scan"]').length > 0
                     );
                 });
-                return result;
             });
         }
 
@@ -129,7 +134,7 @@ patch(KanbanRenderer.prototype, {
             iCard = 0;
             iGroup = 0;
         }
-        // Find next card to focus
+
         const nextCard = this.getNextCard(direction, iCard, cards, iGroup, isGrouped);
         if (nextCard && nextCard instanceof HTMLElement) {
             nextCard.focus();
@@ -137,5 +142,3 @@ patch(KanbanRenderer.prototype, {
         }
     },
 });
-
-        
