@@ -38,6 +38,10 @@ class StockPicking(models.Model):
             "stock_barcodes.action_stock_barcodes_read_picking"
         )
         action["res_id"] = wiz.id
+        # Evita loops y context heredado de botones kanban
+        action["context"] = {
+            "form_view_ref": "stock_barcodes.view_wiz_stock_barcodes_read_picking_form"
+        }
         return action
 
     def button_validate(self):
