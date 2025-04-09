@@ -7,14 +7,12 @@
             <xpath expr="//form" position="attributes">
                 </xpath>
             <xpath expr="//field[@name='display_menu']" position="after">
-                <field name="show_barcode_scanner" invisible="1"/>
-                <t t-if="show_barcode_scanner">
-                    <div class="mx-3">
-                        <a href="#" id="open_barcode_scanner">
-                            <i class="fa fa-2x fa-barcode" />
-                        </a>
-                    </div>
-                </t>
+                <field name="show_barcode_scanner" invisible="1" widget="boolean"/>
+                <div class="mx-3" id="barcode_scanner_container">
+                    <a href="#" id="open_barcode_scanner">
+                        <i class="fa fa-2x fa-barcode" />
+                    </a>
+                </div>
             </xpath>
         </field>
     </record>
