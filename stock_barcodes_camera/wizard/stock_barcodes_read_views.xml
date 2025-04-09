@@ -10,7 +10,7 @@
             <xpath expr="//field[@name='display_menu']" position="after">
                 <field name="show_barcode_scanner" invisible="1"/>
                 <div class="mx-3" attrs="{'invisible': [('show_barcode_scanner', '=', False)]}">
-                    <a href="#" t-on-click="openBarcodeScanner">
+                    <a href="#" id="open_barcode_scanner">
                         <i class="fa fa-2x fa-barcode" />
                     </a>
                 </div>
