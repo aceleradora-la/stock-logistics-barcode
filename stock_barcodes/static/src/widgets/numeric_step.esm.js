@@ -10,9 +10,7 @@ patch(NumericStep.prototype, {
     _onFocus() {
         if (isAllowedBarcodeModel(this.props.record.resModel)) {
             // Auto select all content when user enters into fields with this widget.
-            if (this.inputRef?.el?.select) {
-                this.inputRef.el.select();
-            }
+            this.inputRef.el.select();
         }
     },
 
@@ -30,6 +28,8 @@ patch(NumericStep.prototype, {
                 return;
             }
         }
-        this._super(...arguments);
+
+        // Llamada compatible con OWL 2
+        NumericStep.prototype._onKeyDown.call(this, ev);
     },
 });
