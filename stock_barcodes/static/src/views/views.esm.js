@@ -11,7 +11,6 @@ import { useService } from "@web/core/utils/hooks";
 
 let barcodeOverlaysVisible = false;
 
-// This is necessary because the hotkey service does not make its API public for some reasons
 export function barcodeRemoveHotkeyOverlays() {
     for (const overlay of document.querySelectorAll(".o_barcode_web_hotkey_overlay")) {
         overlay.remove();
@@ -20,10 +19,7 @@ export function barcodeRemoveHotkeyOverlays() {
 }
 
 export function barcodeAddHotkeyOverlays(activeElement) {
-    for (const el of getVisibleElements(
-        activeElement,
-        "[data-hotkey]:not(:disabled)"
-    )) {
+    for (const el of getVisibleElements(activeElement, "[data-hotkey]:not(:disabled)")) {
         const hotkey = el.dataset.hotkey;
         const overlay = document.createElement("div");
         overlay.classList.add(
@@ -62,30 +58,23 @@ function setupView() {
 
     const handleKeys = async (ev) => {
         if (ev.keyCode === 113) {
-            // F2
             const { activeElement } = uiService;
-
             if (barcodeOverlaysVisible) {
                 barcodeRemoveHotkeyOverlays();
             } else {
                 barcodeAddHotkeyOverlays(activeElement);
             }
         } else if (ev.keyCode === 120) {
-            // F9
             const button = document.querySelector("button[name='action_clean_values']");
             if (isVisible(button)) {
                 button.click();
             }
         } else if (ev.keyCode === 123 || ev.keyCode === 115) {
-            // F12 or F4
-            await actionService.doAction(
-                "stock_barcodes.action_stock_barcodes_action",
-                {
-                    name: "Barcode wizard menu",
-                    res_model: "wiz.stock.barcodes.read.picking",
-                    type: "ir.actions.act_window",
-                }
-            );
+            await actionService.doAction("stock_barcodes.action_stock_barcodes_action", {
+                name: "Barcode wizard menu",
+                res_model: "wiz.stock.barcodes.read.picking",
+                type: "ir.actions.act_window",
+            });
         }
     };
 
@@ -106,9 +95,7 @@ function setupView() {
                     }
                     if (type === "stock_barcodes_focus") {
                         requestIdleCallback(() => {
-                            const input = document.querySelector(
-                                `[name=${payload.field_name}] input`
-                            );
+                            const input = document.querySelector(`[name=${payload.field_name}] input`);
                             if (input) {
                                 input.focus();
                             }
@@ -152,9 +139,14 @@ function setupView() {
     });
 }
 
+// Guardamos los setups originales
+const originalKanbanSetup = KanbanController.prototype.setup;
+const originalFormSetup = FormController.prototype.setup;
+const originalListSetup = ListController.prototype.setup;
+
 patch(KanbanController.prototype, {
     setup() {
-        this._super(...arguments);
+        originalKanbanSetup.call(this);
         if (isAllowedBarcodeModel(this.props.resModel)) {
             setupView.call(this);
         }
@@ -163,7 +155,7 @@ patch(KanbanController.prototype, {
 
 patch(FormController.prototype, {
     setup() {
-        this._super(...arguments);
+        originalFormSetup.call(this);
         if (isAllowedBarcodeModel(this.props.resModel)) {
             setupView.call(this);
         }
@@ -172,7 +164,7 @@ patch(FormController.prototype, {
 
 patch(ListController.prototype, {
     setup() {
-        this._super(...arguments);
+        originalListSetup.call(this);
         if (isAllowedBarcodeModel(this.props.resModel)) {
             setupView.call(this);
         }
