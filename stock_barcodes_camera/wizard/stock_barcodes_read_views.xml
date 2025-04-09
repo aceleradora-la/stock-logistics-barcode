@@ -8,8 +8,8 @@
                 <attribute name="js_class">barcode_scanner</attribute>
             </xpath>
             <xpath expr="//field[@name='display_menu']" position="after">
-                <field name="show_barcode_scanner" invisible="1" />
-                <div class="mx-3" t-if="show_barcode_scanner">
+                <field name="show_barcode_scanner" invisible="1"/>
+                <div class="mx-3" attrs="{'invisible': [('show_barcode_scanner', '=', False)]}">
                     <a href="#" t-on-click="openBarcodeScanner">
                         <i class="fa fa-2x fa-barcode" />
                     </a>
