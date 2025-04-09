@@ -43,6 +43,7 @@ class StockPickingType(models.Model):
             "location_dest_id", "filled_default"
         ):
             vals["location_dest_id"] = self.default_location_dest_id.id
+    
         wiz = self.env["wiz.stock.barcodes.read.picking"].create(vals)
         wiz.fill_pending_moves()
         wiz.determine_todo_action()
@@ -50,6 +51,10 @@ class StockPickingType(models.Model):
             "stock_barcodes.action_stock_barcodes_read_picking"
         )
         action["res_id"] = wiz.id
+        # Limpieza de context para evitar loops
+        action["context"] = {
+            "form_view_ref": "stock_barcodes.view_wiz_stock_barcodes_read_picking_form"
+        }
         return action
 
     def action_barcode_new_picking(self):
