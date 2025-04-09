@@ -8,11 +8,13 @@
                 </xpath>
             <xpath expr="//field[@name='display_menu']" position="after">
                 <field name="show_barcode_scanner" invisible="1"/>
-                <div class="mx-3" attrs="{'invisible': [('show_barcode_scanner', '=', False)]}">
-                    <a href="#" id="open_barcode_scanner">
-                        <i class="fa fa-2x fa-barcode" />
-                    </a>
-                </div>
+                <t t-if="show_barcode_scanner">
+                    <div class="mx-3">
+                        <a href="#" id="open_barcode_scanner">
+                            <i class="fa fa-2x fa-barcode" />
+                        </a>
+                    </div>
+                </t>
             </xpath>
         </field>
     </record>
