@@ -1,7 +1,7 @@
 /** @odoo-module **/
 
-import {ViewCompiler} from "@web/views/view_compiler";
-import {patch} from "@web/core/utils/patch";
+import { ViewCompiler } from "@web/views/view_compiler";
+import { patch } from "@web/core/utils/patch";
 
 patch(ViewCompiler.prototype, {
     compileButton(el, params) {
@@ -9,7 +9,7 @@ patch(ViewCompiler.prototype, {
         el.removeAttribute("data-hotkey");
         const button = this._super(el, params);
         if (hotkey) {
-            button.setAttribute("hotkey", hotkey);
+            button.dataset.hotkey = hotkey;  // Equivalente a setAttribute("data-hotkey", hotkey)
         }
         return button;
     },
