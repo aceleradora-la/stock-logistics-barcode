@@ -105,4 +105,37 @@ patch(KanbanRenderer.prototype, {
             .map((group) => [...group.querySelectorAll(".o_kanban_record")])
             .filter((group) => group.length);
 
-        if (isAllowedBarcodeModel(this.props.list.res
+                if (isAllowedBarcodeModel(this.props.list.resModel)) {
+            cards = cards.map((group) => {
+                const result = group.filter((card) => {
+                    return (
+                        card.querySelectorAll('button[name="action_barcode_scan"]').length > 0
+                    );
+                });
+                return result;
+            });
+        }
+
+        let iGroup = null;
+        let iCard = null;
+        for (iGroup = 0; iGroup < cards.length; iGroup++) {
+            const i = cards[iGroup].indexOf(closestCard);
+            if (i !== -1) {
+                iCard = i;
+                break;
+            }
+        }
+        if (iCard === undefined) {
+            iCard = 0;
+            iGroup = 0;
+        }
+        // Find next card to focus
+        const nextCard = this.getNextCard(direction, iCard, cards, iGroup, isGrouped);
+        if (nextCard && nextCard instanceof HTMLElement) {
+            nextCard.focus();
+            return true;
+        }
+    },
+});
+
+        
