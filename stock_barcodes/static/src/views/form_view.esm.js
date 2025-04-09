@@ -5,11 +5,15 @@
 import {FormController} from "@web/views/form/form_controller";
 import {patch} from "@web/core/utils/patch";
 
-patch(FormController, {
+// Guardamos el setup original
+const originalSetup = FormController.prototype.setup;
+
+patch(FormController.prototype, {
     setup() {
-        this._super(...arguments);
-        // Adds support to use control_pannel_hidden from the
-        // context to disable the control panel
+        // Llamamos al setup original
+        originalSetup.call(this);
+
+        // Lógica personalizada
         if (this.props.context.control_panel_hidden) {
             this.display.controlPanel = false;
         }
