@@ -7,9 +7,11 @@ patch(ViewCompiler.prototype, {
     compileButton(el, params) {
         const hotkey = el.getAttribute("data-hotkey");
         el.removeAttribute("data-hotkey");
-        const button = this._super(el, params);
+
+        const button = ViewCompiler.prototype.compileButton.call(this, el, params);
+
         if (hotkey) {
-            button.dataset.hotkey = hotkey;  // Equivalente a setAttribute("data-hotkey", hotkey)
+            button.setAttribute("hotkey", hotkey);
         }
         return button;
     },
