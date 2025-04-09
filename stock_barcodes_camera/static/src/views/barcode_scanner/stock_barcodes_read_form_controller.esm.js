@@ -55,4 +55,4 @@ export class StockBarcodesReadFormController extends FormController {
 }
 
 StockBarcodesReadFormController.template = 'stock_barcodes_camera.StockBarcodesReadFormView'; // Ajusta si es necesario
-registry.category('views').add('wiz_stock_barcodes_read_form', StockBarcodesReadFormController);
+registry.category('views').add('view_stock_barcodes_read_form', StockBarcodesReadFormController);
